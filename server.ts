@@ -17,7 +17,14 @@ function getAI() {
   if (!aiClient) {
     const key = process.env.GEMINI_API_KEY;
     if (key && key !== 'MY_GEMINI_API_KEY') {
-      aiClient = new GoogleGenAI({ apiKey: key });
+      aiClient = new GoogleGenAI({
+        apiKey: key,
+        httpOptions: {
+          headers: {
+            'User-Agent': 'aistudio-build',
+          },
+        },
+      });
     }
   }
   return aiClient;
@@ -82,17 +89,30 @@ app.post('/api/chat', async (req, res) => {
     }
 
     const response = await ai.models.generateContent({
-      model: 'gemini-2.5-flash',
-      contents: [
-        { role: 'user', parts: [{ text: `${SYSTEM_PROMPT}\n\nUser Question: ${message}` }] },
-      ],
+      model: 'gemini-3.6-flash',
+      contents: `${SYSTEM_PROMPT}\n\nUser Question: ${message}`,
     });
 
     const replyText = response.text || "Thank you for asking about Shashidhara H V. Feel free to reach out via email at hvshashidhar@gmail.com!";
     res.json({ response: replyText });
   } catch (error: any) {
     console.error('Error calling Gemini API:', error);
-    res.status(500).json({ error: 'Failed to process AI response', details: error.message });
+    // Intelligent fallback when Gemini API encounters rate limits or errors
+    const { message } = req.body;
+    const lower = (message || '').toLowerCase();
+    let reply = `Shashidhara H V is a Senior Software Engineer with ${yearsOfExp} years of experience specializing in Java, Spring Boot, Microservices, Kubernetes, and AWS.`;
+    if (lower.includes('contact') || lower.includes('email') || lower.includes('phone') || lower.includes('hire') || lower.includes('reach')) {
+      reply = "You can reach Shashidhara via Email: hvshashidhar@gmail.com, Phone: +91 7676215649, or LinkedIn: https://linkedin.com/in/shashidhara-h-v-465b7116b.";
+    } else if (lower.includes('qualcomm') || lower.includes('experience') || lower.includes('work') || lower.includes('job')) {
+      reply = "At Qualcomm (Apr 2022 - Present), Shashidhara architected a Kubernetes distributed FTP sync framework (24h -> 1h), optimized ECCN data grid loads by 90% (3 min -> 18s), and won both QSparkler and QAchiever awards!";
+    } else if (lower.includes('skill') || lower.includes('stack') || lower.includes('java') || lower.includes('aws') || lower.includes('spring')) {
+      reply = "Shashidhara's core stack includes Java 17, Spring Boot, Microservices, Kubernetes (AWS EKS), Docker, Apache Kafka, PostgreSQL, Angular, Zero Trust IAP, and Splunk observability.";
+    } else if (lower.includes('award') || lower.includes('achievement') || lower.includes('recognition')) {
+      reply = "Shashidhara has won the Qualcomm QSparkler Award and QAchiever Award for outstanding technical contributions and cloud migration performance.";
+    } else if (lower.includes('education') || lower.includes('college') || lower.includes('degree')) {
+      reply = "Shashidhara holds a Bachelor of Engineering (B.E.) in Industrial & Production Engineering from Sri Jayachamarajendra College of Engineering (SJCE), Mysore (2019).";
+    }
+    return res.json({ response: reply });
   }
 });
 

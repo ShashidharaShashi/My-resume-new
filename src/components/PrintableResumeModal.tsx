@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { contactData, summaryText, experienceData, skillCategories, awardsData, educationData } from '../data/resumeData';
-import { X, Printer, Download, Mail, Phone, Linkedin, MapPin, CheckCircle2 } from 'lucide-react';
+import { X, Printer, Download, Mail, Phone, Linkedin, MapPin, CheckCircle2, Loader2 } from 'lucide-react';
+import { generateResumePDF } from '../utils/pdfGenerator';
 
 interface PrintableResumeModalProps {
   isOpen: boolean;
@@ -8,29 +9,60 @@ interface PrintableResumeModalProps {
 }
 
 export const PrintableResumeModal: React.FC<PrintableResumeModalProps> = ({ isOpen, onClose }) => {
+  const [isDownloading, setIsDownloading] = useState(false);
+
   if (!isOpen) return null;
 
   const handlePrint = () => {
     window.print();
   };
 
+  const handleDownloadPdf = async () => {
+    setIsDownloading(true);
+    try {
+      generateResumePDF();
+    } catch (err) {
+      console.error('Failed to generate PDF download:', err);
+      window.print();
+    } finally {
+      setIsDownloading(false);
+    }
+  };
+
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-md overflow-y-auto">
-      <div className="relative w-full max-w-4xl bg-white text-slate-900 rounded-2xl shadow-2xl overflow-hidden my-8 max-h-[90vh] flex flex-col">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-md overflow-y-auto print:p-0 print:bg-white print:static">
+      <div className="relative w-full max-w-4xl bg-white text-slate-900 rounded-2xl shadow-2xl overflow-hidden my-8 max-h-[90vh] flex flex-col print:max-h-none print:shadow-none print:my-0 print:rounded-none">
         
         {/* Modal Controls Header */}
-        <div className="p-4 bg-slate-900 text-slate-100 flex items-center justify-between border-b border-slate-800 shrink-0 print:hidden">
+        <div className="p-4 bg-slate-900 text-slate-100 flex flex-wrap items-center justify-between gap-3 border-b border-slate-800 shrink-0 print:hidden">
           <div className="flex items-center gap-2">
             <span className="text-sm font-bold">Resume Document Preview</span>
-            <span className="text-xs text-slate-400 font-mono">(Print & PDF Ready)</span>
+            <span className="text-xs text-slate-400 font-mono">(A4 Ready)</span>
           </div>
           <div className="flex items-center gap-2">
             <button
-              onClick={handlePrint}
-              className="flex items-center gap-1.5 px-4 py-2 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold text-xs transition-colors"
+              onClick={handleDownloadPdf}
+              disabled={isDownloading}
+              className="flex items-center gap-1.5 px-4 py-2 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold text-xs transition-colors disabled:opacity-50"
             >
-              <Printer className="w-4 h-4" />
-              Print / Save PDF
+              {isDownloading ? (
+                <>
+                  <Loader2 className="w-4 h-4 animate-spin" />
+                  Generating PDF...
+                </>
+              ) : (
+                <>
+                  <Download className="w-4 h-4" />
+                  Download PDF
+                </>
+              )}
+            </button>
+            <button
+              onClick={handlePrint}
+              className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 font-semibold text-xs border border-slate-700 transition-colors"
+            >
+              <Printer className="w-4 h-4 text-cyan-400" />
+              Print
             </button>
             <button
               onClick={onClose}
