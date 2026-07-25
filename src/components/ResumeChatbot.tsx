@@ -53,8 +53,18 @@ export const ResumeChatbot: React.FC<ResumeChatbotProps> = ({ isOpen, onClose })
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ message: query }),
       });
-      const data = await res.json();
-      const botReply = data.response || `Shashidhara is a Senior Software Engineer with ${yearsOfExp} years of full stack Java experience. Contact him at hvshashidhar@gmail.com!`;
+      
+      const contentType = res.headers.get('content-type');
+      let botReply = '';
+      
+      if (res.ok && contentType && contentType.includes('application/json')) {
+        const data = await res.json();
+        botReply = data.response;
+      }
+
+      if (!botReply) {
+        botReply = `Shashidhara is a Senior Software Engineer with ${yearsOfExp} years of experience in Java, Spring Boot, Microservices, and Kubernetes. Contact him directly at hvshashidhar@gmail.com or +91 7676215649!`;
+      }
       
       setMessages((prev) => [...prev, { role: 'assistant', content: botReply }]);
     } catch (err) {
