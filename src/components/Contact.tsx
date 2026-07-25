@@ -145,18 +145,18 @@ export const Contact: React.FC<ContactProps> = ({ onOpenPrintModal, onOpenChat }
                 <FileDown className="w-4 h-4 text-blue-400" />
                 Export Resume PDF
               </button>
-              <button
+              {/* <button
                 onClick={onOpenChat}
                 className="p-3 rounded-lg bg-blue-600 hover:bg-blue-500 text-xs font-bold text-white flex items-center justify-center gap-1.5 shadow-md shadow-blue-950/30 transition-all"
               >
                 <Sparkles className="w-4 h-4 text-blue-200" />
                 Ask AI Assistant
-              </button>
+              </button> */}
             </div>
           </div>
 
           {/* Interactive Message Form */}
-          <div className="lg:col-span-7 p-5 rounded-xl bg-slate-900/60 border border-slate-800">
+          {/* <div className="lg:col-span-7 p-5 rounded-xl bg-slate-900/60 border border-slate-800">
             <h3 className="text-base font-bold text-white mb-1">Send Direct Message</h3>
             <p className="text-xs text-slate-400 mb-5">
               Leave a note for Shashidhara and get a swift response.
@@ -220,7 +220,7 @@ export const Contact: React.FC<ContactProps> = ({ onOpenPrintModal, onOpenChat }
                 </button>
               </form>
             )}
-          </div>
+          </div> */}
 
         </div>
 

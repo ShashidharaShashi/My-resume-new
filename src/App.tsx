@@ -42,7 +42,7 @@ export default function App() {
       </main>
 
       {/* Floating Interactive AI Assistant Trigger Badge */}
-      <div className="fixed bottom-6 right-6 z-40">
+      {/* <div className="fixed bottom-6 right-6 z-40">
         <button
           id="floating-ai-trigger"
           onClick={() => setChatOpen(true)}
@@ -56,7 +56,7 @@ export default function App() {
             Ask AI Assistant
           </span>
         </button>
-      </div>
+      </div> */}
 
       {/* Interactive AI Assistant Modal */}
       <ResumeChatbot

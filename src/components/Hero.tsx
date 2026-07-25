@@ -107,13 +107,13 @@ export const Hero: React.FC<HeroProps> = ({ onOpenPrintModal, onOpenChat }) => {
                 <ChevronRight className="w-4 h-4" />
               </a>
 
-              <button
+              {/* <button
                 onClick={onOpenChat}
                 className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-slate-900 hover:bg-slate-800 text-slate-200 border border-slate-700 text-xs font-semibold transition-all hover:border-blue-400"
               >
                 <Sparkles className="w-4 h-4 text-blue-400" />
                 Ask AI Assistant
-              </button>
+              </button> */}
 
               <button
                 onClick={onOpenPrintModal}
