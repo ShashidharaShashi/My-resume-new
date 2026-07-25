@@ -83,14 +83,14 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenPrintModal, onOpenChat }) 
 
           {/* Action Buttons */}
           <div className="hidden sm:flex items-center gap-3">
-            <button
+            {/* <button
               id="ask-ai-button"
               onClick={onOpenChat}
               className="flex items-center gap-2 px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-gradient-to-r from-indigo-600 to-cyan-600 hover:from-indigo-500 hover:to-cyan-500 text-white shadow-md shadow-cyan-900/20 transition-all hover:scale-105"
             >
               <Sparkles className="w-3.5 h-3.5 text-cyan-200 animate-pulse" />
               Ask AI Assistant
-            </button>
+            </button> */}
 
             <button
               id="download-resume-nav-btn"
