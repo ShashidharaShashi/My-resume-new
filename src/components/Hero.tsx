@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Mail, Phone, Linkedin, MapPin, Award, ChevronRight, Sparkles, Server, Cpu, Shield, FileText, Camera, Upload } from 'lucide-react';
 import { contactData, yearsOfExp } from '../data/resumeData';
-import myPhoto from '../Shashidhara h v.jpeg.JPG';
 
 interface HeroProps {
   onOpenPrintModal: () => void;
@@ -10,7 +9,7 @@ interface HeroProps {
 
 export const Hero: React.FC<HeroProps> = ({ onOpenPrintModal, onOpenChat }) => {
   // Default professional software developer headshot photo
-  const defaultPhoto = myPhoto;
+  const defaultPhoto = 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=400';
   const [profilePhoto, setProfilePhoto] = useState<string>(defaultPhoto);
 
   useEffect(() => {
