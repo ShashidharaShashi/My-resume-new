@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Mail, Phone, Linkedin, MapPin, Award, ChevronRight, Sparkles, Server, Cpu, Shield, FileText, Camera, Upload } from 'lucide-react';
 import { contactData, yearsOfExp } from '../data/resumeData';
-import myPhoto from '../assets/profile.jpg';
+import myPhoto from '../assets/profile.jpg.JPG';
 
 interface HeroProps {
   onOpenPrintModal: () => void;
